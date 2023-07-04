@@ -33,7 +33,7 @@ struct ContentView: View {
                                 isActive: $isLoggedOut,
                                 label: { EmptyView() }
                         )
-                )
+                ).navigationBarTitle("Motivation")
     }
 
     private func logout() {

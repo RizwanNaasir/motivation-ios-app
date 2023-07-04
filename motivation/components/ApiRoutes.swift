@@ -10,3 +10,4 @@ let LOGIN_ROUTE = `API_BASE_URL` + "auth/login"
 let REGISTER_ROUTE = `API_BASE_URL` + "auth/register"
 
 let QUOTES_LIST_ROUTE = `API_BASE_URL` + "quote/list"
+let REFRESH_QUOTES_ROUTE = `API_BASE_URL` + "quote/refresh"

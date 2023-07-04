@@ -1,6 +1,6 @@
 import Foundation
 
-public func request<T: Codable>(
+public func requestData<T: Codable>(
         _ url: String,
         method: String = "GET",
         parameters: [String: Any]? = nil,
@@ -43,6 +43,44 @@ public func request<T: Codable>(
             completion(nil, error)
         }
     }
+    task.resume()
+}
+public func request(
+        _ url: String,
+        method: String = "GET",
+        parameters: [String: Any]? = nil,
+        encoding: String.Encoding = .utf8,
+        headers: [String: Any]? = nil,
+        completion: @escaping (Error?) -> Void
+) {
+    var request = URLRequest(url: URL(string: url)!, timeoutInterval: Double.infinity)
+    request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+    if let authToken = UserDefaults.standard.string(forKey: "AuthToken") {
+        request.addValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+    }
+
+    if let headers = headers {
+        for (key, value) in headers {
+            request.addValue(value as! String, forHTTPHeaderField: key)
+        }
+    }
+
+    request.httpMethod = method
+
+    if let parameters = parameters {
+        request.httpBody = try? JSONSerialization.data(withJSONObject: parameters)
+    }
+
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        if let error = error {
+            completion(error)
+            return
+        }
+
+        completion(nil)
+    }
+
     task.resume()
 }
 

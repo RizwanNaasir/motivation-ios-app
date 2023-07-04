@@ -2,13 +2,25 @@ import SwiftUI
 
 struct BestQuotesView: View {
     @State private var quotes: [Quote] = []
-
+    @State private var isLoading: Bool = false
     var body: some View {
         VStack {
-            GreetingsCard()
-
             // List of Quotes
-            if quotes.isEmpty {
+            if(quotes.isEmpty && !isLoading){
+                Image("Empty") // Replace with your empty state image
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding()
+                        .padding(.bottom, 32.0)
+                Text("No Quotes Found")
+                        .padding(.bottom, 16.0)
+                Button(action: {
+                    refreshFromServer()
+                }) {
+                    Text("Refresh From Server")
+                }
+            }
+            if (isLoading && quotes.isEmpty) {
                 ProgressView().padding(.top) // Show a loading indicator while fetching quotes
             } else {
                 ScrollView {
@@ -27,7 +39,7 @@ struct BestQuotesView: View {
     }
 
     private func fetchQuotes() {
-        request(QUOTES_LIST_ROUTE, method: "GET") { (response: Response<[Quote]>?, error) in
+        requestData(QUOTES_LIST_ROUTE, method: "GET") { (response: Response<[Quote]>?, error) in
             if let error = error {
                 print("Error: \(error)")
                 return
@@ -39,25 +51,24 @@ struct BestQuotesView: View {
             }
 
             if let quoteResponse = response.data {
-                debugPrint(quoteResponse)
+                quotes = quoteResponse
             } else {
                 print("No data in the response")
             }
         }
     }
-}
 
-struct GreetingsCard: View {
-    var body: some View {
-        Rectangle()
-                .foregroundColor(Color(red: 0.9, green: 0.9, blue: 0.9))
-                .frame(height: 100)
-                .overlay(
-                        Text("Greetings! Here are some quotes for you")
-                                .font(.title)
-                                .colorInvert()
-                                .foregroundColor(.white)
-                )
+    private func refreshFromServer() {
+        isLoading = true
+        request(REFRESH_QUOTES_ROUTE, method: "POST") { error in
+            isLoading = false
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            print("Successfully refreshed quotes")
+            fetchQuotes()
+        }
     }
 }
 
@@ -66,32 +77,38 @@ struct QuoteCard: View {
     @State private var isLiked: Bool = false
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
-            RoundedRectangle(cornerRadius: 10)
-                    .foregroundColor(.black)
-                    .frame(height: 120)
-                    .overlay(
-                            Text(quote.content)
-                                    .font(.body)
-                                    .foregroundColor(.white)
-                                    .padding()
-                    )
+        VStack(spacing: 8) {
+            Text(quote.content)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
 
-            Button(action: {
-                isLiked.toggle()
-            }) {
-                Image(systemName: isLiked ? "heart.fill" : "heart")
-                        .foregroundColor(isLiked ? .red : .gray)
-                        .font(.system(size: 20))
+            Divider() // Add a divider between the content and author
+
+            HStack {
+                Text("Author: ")
+                        .italic()
+
+                Text(quote.author)
+
+                Spacer()
+
+                Button(action: {
+                    isLiked.toggle()
+                }) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                            .foregroundColor(isLiked ? .red : .gray)
+                            .font(.system(size: 20))
+                            .padding(8)
+                }
                         .padding(8)
             }
-                    .padding(8)
+                    .cornerRadius(8)
+                    .shadow(radius: 2)
+                    .cornerRadius(10)
         }
-                .cornerRadius(8)
-                .shadow(radius: 2)
     }
 }
-
 
 private func addToFavorites() {
     // Perform any actions here to add the quote to favorites
@@ -103,9 +120,3 @@ struct BestQuotesView_Previews: PreviewProvider {
         BestQuotesView()
     }
 }
-
-struct QuoteResponse: Codable {
-    let message: String
-    let data: [Quote]
-}
-
