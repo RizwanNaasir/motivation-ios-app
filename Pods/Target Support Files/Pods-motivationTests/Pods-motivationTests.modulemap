@@ -1,0 +1,6 @@
+framework module Pods_motivationTests {
+  umbrella header "Pods-motivationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
