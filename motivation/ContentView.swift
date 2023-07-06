@@ -30,7 +30,6 @@ struct ContentView: View {
                                 Label("Profile", systemImage: "person")
                             }
                 }
-                        .navigationBarItems(trailing: Button("Logout", action: logout))
             }
                     .background(
                             NavigationStack {
@@ -41,7 +40,11 @@ struct ContentView: View {
                                         }
                             }
                     )
-                    .navigationBarTitle("Motivation")
+                    .navigationBarTitle("Home")
+                    .navigationBarItems(
+                            trailing: Button(action: logout) {
+                                Image(systemName: "arrow.right.square")
+                            })
         }
     }
 
