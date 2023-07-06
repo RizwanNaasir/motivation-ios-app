@@ -163,7 +163,6 @@ private func addToFavorites(id: Int, completion: @escaping (Bool) -> Void) {
             completion(false)
             return
         }
-        print("Successfully added to favorites")
         completion(true)
     }
 }
