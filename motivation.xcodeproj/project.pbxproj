@@ -86,7 +86,6 @@
 		80A8B56A2A542152008B9FD0 /* AppProxyProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProxyProvider.swift; sourceTree = "<group>"; };
 		80A8B56C2A542152008B9FD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80A8B56D2A542152008B9FD0 /* Net.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Net.entitlements; sourceTree = "<group>"; };
-		80C1A4B62A53F6740004203E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8653EC2ADD1D8D4DF2F39321 /* Pods-motivation-motivationUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motivation-motivationUITests.debug.xcconfig"; path = "Target Support Files/Pods-motivation-motivationUITests/Pods-motivation-motivationUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		8BDE815CAC19702349AD292D /* Pods-motivationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-motivationTests.debug.xcconfig"; path = "Target Support Files/Pods-motivationTests/Pods-motivationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		93743B22C2EE7605A6F3685E /* Pods_motivation_motivationUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_motivation_motivationUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -201,7 +200,6 @@
 		806D6DF62A49B0D300822A2C /* motivation */ = {
 			isa = PBXGroup;
 			children = (
-				80C1A4B62A53F6740004203E /* Info.plist */,
 				8009188D2A4C939D00E500F3 /* components */,
 				800918832A4C8C3200E500F3 /* App */,
 				806D6DF72A49B0D300822A2C /* motivationApp.swift */,

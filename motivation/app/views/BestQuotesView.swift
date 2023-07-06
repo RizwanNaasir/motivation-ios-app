@@ -3,10 +3,12 @@ import SwiftUI
 struct BestQuotesView: View {
     @State private var quotes: [Quote] = []
     @State private var isLoading: Bool = false
+    @State private var isRefreshing: Bool = false
+
     var body: some View {
         VStack {
             // List of Quotes
-            if(quotes.isEmpty && !isLoading){
+            if (quotes.isEmpty && !isLoading) {
                 Image("Empty") // Replace with your empty state image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -30,6 +32,9 @@ struct BestQuotesView: View {
                         }
                     }
                             .padding()
+                            .refreshable {
+                                fetchQuotes()
+                            }
                 }
             }
         }
@@ -39,7 +44,11 @@ struct BestQuotesView: View {
     }
 
     private func fetchQuotes() {
+        isRefreshing = true
+        isLoading = true
         requestData(QUOTES_LIST_ROUTE, method: "GET") { (response: Response<[Quote]>?, error) in
+            isRefreshing = false
+            isLoading = false
             if let error = error {
                 print("Error: \(error)")
                 return
@@ -75,38 +84,68 @@ struct BestQuotesView: View {
 struct QuoteCard: View {
     let quote: Quote
     @State private var isLiked: Bool = false
+    @Environment(\.colorScheme) var colorScheme
+
+    init(quote: Quote) {
+        self.quote = quote
+        _isLiked = State(initialValue: quote.isLiked ?? false)
+    }
 
     var body: some View {
-        VStack(spacing: 8) {
-            Text(quote.content)
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
+        VStack(alignment: .leading) {
+            VStack(spacing: 6) {
+                HStack {
+                    Text(quote.author)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(3)
+                            .font(Font.title2.bold())
+                            .foregroundColor(.primary)
+                    Spacer()
+                }
 
-            Divider() // Add a divider between the content and author
+                HStack {
+                    Text(quote.content)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(3)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    Spacer()
+                }
+                HStack {
+                    ForEach(quote.tags ?? [], id: \.self) { tag in
+                        Text(tag)
+                                .font(.caption)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 4)
+                                .background(Color.blue)
+                                .cornerRadius(8)
+                    }
 
-            HStack {
-                Text("Author: ")
-                        .italic()
+                    Spacer()
 
-                Text(quote.author)
-
-                Spacer()
-
-                Button(action: {
-                    isLiked.toggle()
-                }) {
-                    Image(systemName: isLiked ? "heart.fill" : "heart")
-                            .foregroundColor(isLiked ? .red : .gray)
-                            .font(.system(size: 20))
+                    Button(action: {
+                        isLiked.toggle()
+                    }) {
+                        Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .foregroundColor(isLiked ? .red : .gray)
+                                .font(.system(size: 20))
+                                .padding(8)
+                    }
                             .padding(8)
                 }
-                        .padding(8)
+                        .cornerRadius(8)
+                        .shadow(radius: 2)
+                        .cornerRadius(10)
             }
-                    .cornerRadius(8)
-                    .shadow(radius: 2)
-                    .cornerRadius(10)
         }
+                .padding(15)
+                .background(colorScheme == .dark ? Color("#121212") : Color.white)
+                .frame(maxWidth: UIScreen.main.bounds.width - 50, alignment: .leading)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
     }
 }
 
