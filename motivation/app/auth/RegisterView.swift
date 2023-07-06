@@ -71,14 +71,17 @@ struct RegisterView: View {
         }
                 .padding()
                 .background(
-                        NavigationLink(
-                                destination: ContentView().navigationBarBackButtonHidden(true),
-                                isActive: $isRegistered,
-                                label: { EmptyView() }
-                        )
+                        NavigationStack {
+                            Text("") // Add an empty view as a workaround
+                                    .navigationDestination(isPresented: $isRegistered) {
+                                        ContentView()
+                                                .navigationBarBackButtonHidden(true) // Hide the back button in the ContentView
+                                    }
+                        }
                 )
 
     }
+
     private func checkAuthToken() {
         if let authToken = authToken, !authToken.isEmpty {
             // AuthToken available, navigate to ContentView

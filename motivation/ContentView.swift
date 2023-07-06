@@ -5,35 +5,44 @@ struct ContentView: View {
     @State private var isLoggedOut: Bool = false
 
     var body: some View {
-        NavigationView {
-            TabView {
-                BestQuotesView()
-                        .tabItem {
-                            Label("Best Quotes", systemImage: "quote.bubble")
-                        }
-                ProfileView()
-                        .tabItem {
-                            Label("Profile", systemImage: "person")
-                        }
-                MyFavoriteQuotesView()
-                        .tabItem {
-                            Label("Favorite Quote", systemImage: "heart")
-                        }
-                MyFavoriteStoriesView()
-                        .tabItem {
-                            Label("Favorite Stories", systemImage: "book")
-                        }
+        if authToken.isEmpty {
+            LoginView()
+                    .navigationBarHidden(true)
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarTitle("")
+        } else {
+            NavigationView {
+                TabView {
+                    BestQuotesView()
+                            .tabItem {
+                                Label("Best Quotes", systemImage: "quote.bubble")
+                            }
+                    MyFavoriteQuotesView()
+                            .tabItem {
+                                Label("Favorite Quote", systemImage: "heart")
+                            }
+                    MyFavoriteStoriesView()
+                            .tabItem {
+                                Label("Favorite Stories", systemImage: "book")
+                            }
+                    ProfileView()
+                            .tabItem {
+                                Label("Profile", systemImage: "person")
+                            }
+                }
+                        .navigationBarItems(trailing: Button("Logout", action: logout))
             }
-                    .navigationBarItems(trailing: Button("Logout", action: logout))
+                    .background(
+                            NavigationStack {
+                                Text("") // Add an empty view as a workaround
+                                        .navigationDestination(isPresented: $isLoggedOut) {
+                                            LoginView()
+                                                    .navigationBarBackButtonHidden(true) // Hide the back button in ContentView
+                                        }
+                            }
+                    )
+                    .navigationBarTitle("Motivation")
         }
-                .background(
-                        NavigationLink(
-                                destination: LoginView()
-                                        .navigationBarBackButtonHidden(true), // Hide the back button in ContentView
-                                isActive: $isLoggedOut,
-                                label: { EmptyView() }
-                        )
-                ).navigationBarTitle("Motivation")
     }
 
     private func logout() {

@@ -73,7 +73,7 @@
 		8865B401AB2D96FAF5455C46581BE343 /* Pods-motivationTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-motivationTests"; path = Pods_motivationTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FDDAFC9260F1B24F5570629E47F0DAC /* Pods-motivationTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-motivationTests-dummy.m"; sourceTree = "<group>"; };
 		993FD8DBF8D294D518FCEA5774C59C58 /* Pods-motivation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-motivation-umbrella.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9F5C7B89DDE7BC52D677724A59E2BE35 /* Pods-motivation-motivationUITests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-motivation-motivationUITests-Info.plist"; sourceTree = "<group>"; };
 		B4516406D8C12329BE9D6E9051AFC775 /* Pods-motivationTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-motivationTests-umbrella.h"; sourceTree = "<group>"; };
 		B82AEA5AFED10CC9811F0DAE35938BDB /* Pods-motivation-motivationUITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-motivation-motivationUITests"; path = Pods_motivation_motivationUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +88,7 @@
 		ECB65F15D9C020B926EE44E1B9372DC4 /* Pods-motivationTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-motivationTests-Info.plist"; sourceTree = "<group>"; };
 		F318FE758DBBEDD53C43B7374CF4B0EF /* Toast.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Toast.swift; path = Toast/Toast.swift; sourceTree = "<group>"; };
 		FD487071644182E5344861DD32587734 /* Pods-motivation-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-motivation-Info.plist"; sourceTree = "<group>"; };
-		FF19C4BA321C91B08BDA298A01D42C37 /* Pods-motivation */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-motivation"; path = Pods_motivation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF19C4BA321C91B08BDA298A01D42C37 /* Pods_motivation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_motivation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,7 +180,7 @@
 		5E7A9602B484755598543EB1AB9B21DD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FF19C4BA321C91B08BDA298A01D42C37 /* Pods-motivation */,
+				FF19C4BA321C91B08BDA298A01D42C37 /* Pods_motivation.framework */,
 				B82AEA5AFED10CC9811F0DAE35938BDB /* Pods-motivation-motivationUITests */,
 				8865B401AB2D96FAF5455C46581BE343 /* Pods-motivationTests */,
 				D6043471C96F93DC41F7DD1E0D7D8B35 /* Toast-Swift */,
@@ -256,7 +256,6 @@
 				F318FE758DBBEDD53C43B7374CF4B0EF /* Toast.swift */,
 				ADB41ECB626BC7FC84F0B17847BEB04F /* Support Files */,
 			);
-			name = "Toast-Swift";
 			path = "Toast-Swift";
 			sourceTree = "<group>";
 		};
@@ -352,7 +351,7 @@
 			);
 			name = "Pods-motivation";
 			productName = Pods_motivation;
-			productReference = FF19C4BA321C91B08BDA298A01D42C37 /* Pods-motivation */;
+			productReference = FF19C4BA321C91B08BDA298A01D42C37 /* Pods_motivation.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B990BD87169C76A3ED3FE8A9258D91A3 /* Toast-Swift */ = {
@@ -530,7 +529,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 49B27CCDA580AC9B83FFC0F0A978104E /* Pods-motivation.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -696,7 +695,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7710B6F615C30D6CD203DC662D5D475D /* Pods-motivation.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
