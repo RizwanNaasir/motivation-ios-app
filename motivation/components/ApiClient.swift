@@ -5,13 +5,14 @@ import Toast_Swift
 public func requestData<T: Codable>(
         _ url: String,
         method: String = "GET",
-        parameters: [String: Any]? = nil,
+        parameters: Dictionary<String, Any>? = nil,
         encoding: String.Encoding = .utf8,
         headers: [String: Any]? = nil,
         completion: @escaping (Response<T>?, Error?) -> Void) {
 
     var request = URLRequest(url: URL(string: url)!, timeoutInterval: Double.infinity)
     request.addValue("application/json", forHTTPHeaderField: "Accept")
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
     if let authToken = UserDefaults.standard.string(forKey: "AuthToken") {
         request.addValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
     }

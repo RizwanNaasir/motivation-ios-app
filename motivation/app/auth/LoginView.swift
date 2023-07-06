@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import ActionButton
 
 struct LoginView: View {
     @State private var username: String = ""
     @State private var password: String = ""
-    @State private var rememberMe: Bool = false
     @State private var isLoading: Bool = false
     @State private var showToast: Bool = false
     @State private var isLoggedIn: Bool = false
-
+    @Environment(\.colorScheme) var colorScheme
     @AppStorage("AuthToken") var authToken: String?
+    @State var actionButtonState: ActionButtonState =
+            .enabled(title: "Login", systemImage: "arrow.right.square")
 
     var body: some View {
         VStack {
@@ -28,59 +30,39 @@ struct LoginView: View {
                     .padding(.bottom, 32.0)
             // Replace with your logo image
 
-            TextField("Username", text: $username)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
+            CustomTextField(
+                    text: $username,
+                    placeholder: "Username",
+                    keyboardType: .emailAddress,
+                    textContentType: .emailAddress
+            )
 
             SecureField("Password", text: $password)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                     .padding(.horizontal)
 
-            HStack {
-                Toggle(isOn: $rememberMe) {
-                    Text("Remember Me")
-                }
-                        .padding(.horizontal)
+            Spacer().padding(1)
 
-                Spacer()
-
-                Button(action: {
-                    isLoading = true
-                    showToast = true
-                    signInWithCred(username: username, password: password) { success in
-                        if success {
-                            // Sign-in successful
-                            isLoading = false
-                            isLoggedIn = true
-                        } else {
-                            // Sign-in failed
-                            isLoading = false
-                        }
-                    }
-                }) {
-                    if isLoading {
-                        ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle())
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.white)
-                                .cornerRadius(8.0)
-                                .disabled(true)
+            ActionButton(state: $actionButtonState, onTap: {
+                actionButtonState = .loading(title: "Logging", systemImage: "arrow.right.square")
+                signInWithCred(username: username, password: password) { success in
+                    if success {
+                        // Sign-in successful
+                        isLoggedIn = true
+                        actionButtonState = .enabled(title: "Logged In", systemImage: "checkmark")
                     } else {
-                        Text("Login")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .background(Color.blue)
-                                .cornerRadius(8.0)
+                        // Sign-in failed
+                        actionButtonState = .enabled(title: "Login", systemImage: "arrow.right.square")
                     }
                 }
-                        .padding(.horizontal);
-            }
+            }, backgroundColor: Color.blue)
+                    .frame(maxWidth: .infinity) // Make the button full width
+                    .padding()
+                    .cornerRadius(8.0)
+                    .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
 
-            Spacer()
+            Spacer().padding(2)
 
             HStack {
                 Text("Don't have an account?")
@@ -95,7 +77,7 @@ struct LoginView: View {
                 .padding()
                 .background(
                         NavigationStack {
-                            Text("") // Add an empty view as a workaround
+                            EmptyView() // Add an empty view as a workaround
                                     .navigationDestination(isPresented: $isLoggedIn) {
                                         ContentView()
                                                 .navigationBarBackButtonHidden(true) // Hide the back button in the ContentView

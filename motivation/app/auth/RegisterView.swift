@@ -1,4 +1,5 @@
 import SwiftUI
+import ActionButton
 
 struct RegisterView: View {
     @State private var name: String = ""
@@ -7,7 +8,9 @@ struct RegisterView: View {
     @State private var isLoading: Bool = false
     @State private var showToast: Bool = false
     @SceneStorage("isRegistered") private var isRegistered: Bool = false
-
+    @Environment(\.colorScheme) var colorScheme
+    @State var actionButtonState: ActionButtonState =
+            .enabled(title: "Register", systemImage: "bolt")
     @AppStorage("AuthToken") var authToken: String?
 
     var body: some View {
@@ -16,63 +19,51 @@ struct RegisterView: View {
                     .font(.largeTitle)
                     .padding()
 
-            TextField("Name", text: $name)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
+            CustomTextField(
+                    text: $name,
+                    placeholder: "Name",
+                    keyboardType: .default,
+                    textContentType: .name
+            )
 
-            TextField("Email", text: $email)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
+            CustomTextField(
+                    text: $email,
+                    placeholder: "Email",
+                    keyboardType: .emailAddress,
+                    textContentType: .emailAddress
+            )
 
             SecureField("Password", text: $password)
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
                     .padding(.horizontal)
 
-            Button(action: {
-                isLoading = true
-                showToast = true
-                registerWithData(
-                        name: name,
-                        email: email,
-                        password: password
-                ) { success in
+            Spacer().padding()
+
+            ActionButton(state: $actionButtonState, onTap: {
+                actionButtonState = .loading(title: "Wait", systemImage: "bolt")
+                registerWithData(name: name, email: email, password: password) { success in
                     if success {
-                        // Registration successful
-                        isLoading = false
+                        // Sign-in successful
                         isRegistered = true
+                        actionButtonState = .enabled(title: "Registered!", systemImage: "checkmark")
                     } else {
-                        // Registration failed
-                        isLoading = false
+                        // Sign-in failed
+                        actionButtonState = .enabled(title: "Register", systemImage: "bolt")
                     }
                 }
-            }) {
-                if isLoading {
-                    ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.white)
-                            .cornerRadius(8.0)
-                            .disabled(true)
-                } else {
-                    Text("Register")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding()
-                            .background(Color.blue)
-                            .cornerRadius(8.0)
-                }
-            }
-                    .padding(.horizontal);
+            }, backgroundColor: Color.blue)
+                    .frame(maxWidth: .infinity) // Make the button full width
+                    .padding()
+                    .cornerRadius(8.0)
+                    .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
+
             Spacer()
         }
                 .padding()
                 .background(
                         NavigationStack {
-                            Text("") // Add an empty view as a workaround
+                            EmptyView() // Add an empty view as a workaround
                                     .navigationDestination(isPresented: $isRegistered) {
                                         ContentView()
                                                 .navigationBarBackButtonHidden(true) // Hide the back button in the ContentView
