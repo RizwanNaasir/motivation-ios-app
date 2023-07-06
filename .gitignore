@@ -1,0 +1,48 @@
+# Xcode
+#
+# Ignore Xcode temporary files, build products, and Xcode scheme files
+
+## User settings
+xcuserdata/
+
+## Build products
+build/
+DerivedData/
+
+## Dependencies
+Pods/
+Podfile.lock
+
+## Schemes
+*.xcodeproj/xcshareddata/xcschemes/*.xcscheme
+
+# macOS
+#
+# Ignore macOS specific files
+
+.DS_Store
+
+# Swift Package Manager
+#
+# Ignore the Packages directory
+
+Packages/
+
+# Carthage
+#
+# Ignore Carthage build directory
+
+Carthage/Build/
+
+# Cocoapods
+#
+# Ignore the Pods directory
+
+Pods/Manifest.lock
+
+# Miscellaneous
+#
+# Ignore any other project-specific files or directories
+
+# .idea/   # Uncomment this line if you use IntelliJ IDEA
+# .vscode/ # Uncomment this line if you use Visual Studio Code

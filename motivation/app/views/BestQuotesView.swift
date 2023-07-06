@@ -115,8 +115,8 @@ private func addToFavorites() {
 
 }
 
-struct BestQuotesView_Previews: PreviewProvider {
-    static var previews: some View {
-        BestQuotesView()
-    }
-}
+//struct BestQuotesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        BestQuotesView()
+//    }
+//}
