@@ -39,7 +39,9 @@ struct BestQuotesView: View {
             }
         }
                 .onAppear {
-                    fetchQuotes()
+                    if quotes.isEmpty {
+                        fetchQuotes()
+                    }
                 }
     }
 
