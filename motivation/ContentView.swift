@@ -40,7 +40,7 @@ struct ContentView: View {
                                         }
                             }
                     )
-                    .navigationBarTitle("Home")
+                    .navigationBarTitle("Motivation")
                     .navigationBarItems(
                             trailing: Button(action: logout) {
                                 Image(systemName: "arrow.right.square")

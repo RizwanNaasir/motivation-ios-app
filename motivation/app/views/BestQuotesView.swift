@@ -36,6 +36,7 @@ struct BestQuotesView: View {
                                 fetchQuotes()
                             }
                 }
+                        .clipped()
             }
         }
                 .onAppear {
