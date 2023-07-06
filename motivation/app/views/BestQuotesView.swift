@@ -84,6 +84,7 @@ struct BestQuotesView: View {
 struct QuoteCard: View {
     let quote: Quote
     @State private var isLiked: Bool = false
+    @State private var isLoading: Bool = false
     @Environment(\.colorScheme) var colorScheme
 
     init(quote: Quote) {
@@ -123,18 +124,24 @@ struct QuoteCard: View {
                                 .background(Color.blue)
                                 .cornerRadius(8)
                     }
-
                     Spacer()
-
                     Button(action: {
-                        isLiked.toggle()
+                        isLoading = true
+                        addToFavorites(id: quote.id) { success in
+                            if success {
+                                isLoading = false
+                                isLiked.toggle()
+                            } else {
+                                isLoading = false
+                            }
+                        }
                     }) {
                         Image(systemName: isLiked ? "heart.fill" : "heart")
                                 .foregroundColor(isLiked ? .red : .gray)
                                 .font(.system(size: 20))
                                 .padding(8)
                     }
-                            .padding(8)
+                            .padding(8).disabled(isLoading)
                 }
                         .cornerRadius(8)
                         .shadow(radius: 2)
@@ -142,16 +149,23 @@ struct QuoteCard: View {
             }
         }
                 .padding(15)
-                .background(colorScheme == .dark ? Color("#121212") : Color.white)
+                .background(colorScheme == .dark ? Color(.darkGray) : Color.white)
                 .frame(maxWidth: UIScreen.main.bounds.width - 50, alignment: .leading)
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
     }
 }
 
-private func addToFavorites() {
-    // Perform any actions here to add the quote to favorites
-
+private func addToFavorites(id: Int, completion: @escaping (Bool) -> Void) {
+    request(ADD_TO_FAVORITES_ROUTE + String(id), method: "POST") { error in
+        if let error = error {
+            print("Error: \(error)")
+            completion(false)
+            return
+        }
+        print("Successfully added to favorites")
+        completion(true)
+    }
 }
 
 //struct BestQuotesView_Previews: PreviewProvider {

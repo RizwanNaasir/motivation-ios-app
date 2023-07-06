@@ -14,4 +14,8 @@ struct Quote: Identifiable, Codable, Hashable {
     let createdAt: String?
     let updatedAt: String?
     var isLiked: Bool?
+
+    enum CodingKeys: String, CodingKey {
+        case id, content, author, tags, authorSlug = "author_slug", length, createdAt = "created_at", updatedAt = "updated_at", isLiked = "is_liked"
+    }
 }

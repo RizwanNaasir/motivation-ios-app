@@ -1,4 +1,6 @@
 import Foundation
+import UIKit
+import Toast_Swift
 
 public func requestData<T: Codable>(
         _ url: String,
@@ -38,6 +40,7 @@ public func requestData<T: Codable>(
         do {
             let decoder = JSONDecoder()
             let responseData = try decoder.decode(Response<T>.self, from: data)
+            enqueueToast(responseData.message)
             completion(responseData, nil)
         } catch {
             completion(nil, error)
@@ -45,6 +48,7 @@ public func requestData<T: Codable>(
     }
     task.resume()
 }
+
 public func request(
         _ url: String,
         method: String = "GET",
@@ -77,8 +81,15 @@ public func request(
             completion(error)
             return
         }
+        do {
+            let decoder = JSONDecoder()
+            let responseData = try decoder.decode(EmptyResponse.self, from: data ?? Data())
+            enqueueToast(responseData.message)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
 
-        completion(nil)
     }
 
     task.resume()
@@ -87,4 +98,23 @@ public func request(
 public struct Response<T: Codable>: Codable {
     let message: String
     let data: T?
+}
+
+public struct EmptyResponse: Codable {
+    let message: String
+}
+
+public func enqueueToast(_ message: String) {
+    DispatchQueue.main.async {
+        let scene = UIApplication
+                .shared
+                .connectedScenes
+                .flatMap {
+                    ($0 as? UIWindowScene)?.windows ?? []
+                }
+                .last {
+                    $0.isKeyWindow
+                }
+        scene?.makeToast(message)
+    }
 }
