@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct motivationApp: App {
+    let favoriteQuotesStore = FavoriteQuotesStore() // Create an instance of FavoriteQuotesStore
+
     var body: some Scene {
         WindowGroup {
             NavigationView {
-                ContentView()
+                ContentView().environmentObject(favoriteQuotesStore)
             }
         }
     }

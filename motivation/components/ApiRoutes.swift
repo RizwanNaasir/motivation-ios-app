@@ -12,3 +12,6 @@ let REGISTER_ROUTE = `API_BASE_URL` + "auth/register"
 let QUOTES_LIST_ROUTE = `API_BASE_URL` + "quote/list"
 let REFRESH_QUOTES_ROUTE = `API_BASE_URL` + "quote/refresh"
 let ADD_TO_FAVORITES_ROUTE = `API_BASE_URL` + "quote/like/"
+
+let FAVORITE_QUOTES_LIST_ROUTE = `API_BASE_URL` + "favourite/list-quotes"
+let FAVORITE_STORIES_LIST_ROUTE = `API_BASE_URL` + "favourite/list-stories"

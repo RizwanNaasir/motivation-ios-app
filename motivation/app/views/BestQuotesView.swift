@@ -4,6 +4,7 @@ struct BestQuotesView: View {
     @State private var quotes: [Quote] = []
     @State private var isLoading: Bool = false
     @State private var isRefreshing: Bool = false
+    @EnvironmentObject var favoriteQuotesStore: FavoriteQuotesStore
 
     var body: some View {
         VStack {
@@ -28,7 +29,7 @@ struct BestQuotesView: View {
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         ForEach(quotes, id: \.self) { quote in
-                            QuoteCard(quote: quote)
+                            QuoteCard(quote: quote).environmentObject(favoriteQuotesStore)
                         }
                     }
                             .padding()
@@ -40,9 +41,7 @@ struct BestQuotesView: View {
             }
         }
                 .onAppear {
-                    if quotes.isEmpty {
-                        fetchQuotes()
-                    }
+                    fetchQuotes()
                 }
     }
 
@@ -89,6 +88,7 @@ struct QuoteCard: View {
     @State private var isLiked: Bool = false
     @State private var isLoading: Bool = false
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var favoriteQuotesStore: FavoriteQuotesStore
 
     init(quote: Quote) {
         self.quote = quote
@@ -134,6 +134,11 @@ struct QuoteCard: View {
                             if success {
                                 isLoading = false
                                 isLiked.toggle()
+                                if isLiked {
+                                    favoriteQuotesStore.addToFavorites(quote)
+                                } else {
+                                    favoriteQuotesStore.removeFromFavorites(quote)
+                                }
                             } else {
                                 isLoading = false
                             }
