@@ -106,6 +106,9 @@ public struct EmptyResponse: Codable {
 }
 
 public func enqueueToast(_ message: String) {
+    if (message == "success") {
+        return
+    }
     DispatchQueue.main.async {
         let scene = UIApplication
                 .shared

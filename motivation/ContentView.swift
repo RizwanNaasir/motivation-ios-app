@@ -40,11 +40,12 @@ struct ContentView: View {
                                         }
                             }
                     )
-                    .navigationBarTitle("Motivation")
+                    .navigationBarTitle("Motivation", displayMode: .inline)
                     .navigationBarItems(
                             trailing: Button(action: logout) {
                                 Image(systemName: "arrow.right.square")
                             })
+
         }
     }
 
