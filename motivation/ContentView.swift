@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("AuthToken") var authToken: String = "" // Make sure to include this if you need AuthToken
     @State private var isLoggedOut: Bool = false
+    @State private var isBottomSheetPresented: Bool = false
 
     var body: some View {
         if authToken.isEmpty {
@@ -21,6 +22,7 @@ struct ContentView: View {
                             .tabItem {
                                 Label("Favorite Quote", systemImage: "heart")
                             }
+
                     MyFavoriteStoriesView()
                             .tabItem {
                                 Label("Favorite Stories", systemImage: "book")
@@ -45,7 +47,29 @@ struct ContentView: View {
                             trailing: Button(action: logout) {
                                 Image(systemName: "arrow.right.square")
                             })
-
+                    .overlay(
+                            VStack {
+                                Spacer()
+                                Button(action: {
+                                    isBottomSheetPresented = true
+                                }) {
+                                    Image(systemName: "plus")
+                                            .font(.system(size: 24))
+                                            .padding()
+                                            .background(Color.blue)
+                                            .foregroundColor(.white)
+                                            .clipShape(Circle())
+                                            .shadow(radius: 4)
+                                }
+                                        .padding(.bottom, 16)
+                                        .padding(.trailing, 16)
+                            }
+                            , alignment: .bottom
+                    )
+                    .sheet(isPresented: $isBottomSheetPresented) {
+                        // The content of the bottom sheet view
+                        BottomSheetView()
+                    }
         }
     }
 
@@ -56,9 +80,3 @@ struct ContentView: View {
         isLoggedOut = true
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView()
-//    }
-//}
