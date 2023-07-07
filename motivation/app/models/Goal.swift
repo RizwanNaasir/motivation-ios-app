@@ -5,9 +5,9 @@
 import Foundation
 
 struct Goal: Identifiable, Codable, Hashable {
-    let id: Int? = nil
-    let title: String
-    let description: String
+    var id: Int? = nil
+    var title: String
+    var description: String
     let createdAt: String? = nil
     let updatedAt: String? = nil
     // Add other properties as needed
@@ -19,5 +19,13 @@ struct Goal: Identifiable, Codable, Hashable {
                 description,
                 createdAt = "created_at",
                 updatedAt = "updated_at"
+    }
+
+    static func from(_ goal: Goal?) -> Goal {
+        Goal(
+                id: goal?.id,
+                title: goal?.title ?? "",
+                description: goal?.description ?? ""
+        )
     }
 }

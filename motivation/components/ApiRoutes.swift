@@ -15,3 +15,5 @@ let ADD_TO_FAVORITES_ROUTE = `API_BASE_URL` + "quote/like/"
 
 let FAVORITE_QUOTES_LIST_ROUTE = `API_BASE_URL` + "favourite/list-quotes"
 let FAVORITE_STORIES_LIST_ROUTE = `API_BASE_URL` + "favourite/list-stories"
+
+let GOAL = `API_BASE_URL` + "goal"

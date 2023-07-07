@@ -9,25 +9,40 @@ struct GoalsView: View {
     @State private var isAddingGoal = false
     @State private var newGoalTitle = ""
     @State private var newGoalDescription = ""
-
+    @Environment(\.colorScheme) var colorScheme
     @ObservedObject private var goalsStore = GoalsStore()
 
     var body: some View {
+
         NavigationView {
             VStack {
                 Divider()
-                List {
-                    ForEach(goalsStore.goals) { goal in
-                        Button(action: {
-                            // Show goal details or edit the goal
-                            editGoal(goal)
-                        }) {
-                            GoalCard(goal: goal)
+                if (goalsStore.get().isEmpty) {
+                    Image("Empty") // Replace with your empty state image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding()
+                            .padding(.bottom, 32.0)
+                    Text("No Goals Found")
+                            .padding(.bottom, 16.0)
+                } else {
+                    List {
+                        ForEach(goalsStore.get()) { goal in
+                            Button(action: {
+                                // Show goal details or edit the goal
+                                editGoal(goal)
+                            }) {
+                                GoalCard(goal: goal)
+                            }
                         }
+                                .onDelete(perform: deleteGoal)
                     }
-                            .onDelete(perform: deleteGoal)
+                            .listStyle(PlainListStyle())
+                            .background(
+                                    RoundedRectangle(cornerRadius: 25)
+                                            .fill(colorScheme == .dark ? Color.black : Color.white)
+                            )
                 }
-
                 Button(action: {
                     isAddingGoal = true
                 }) {
@@ -37,7 +52,7 @@ struct GoalsView: View {
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(8)
+                        .cornerRadius(15)
                         .sheet(isPresented: $isAddingGoal) {
                             // AddGoalView or a form to add a new goal
                             AddGoalView(goalsViewModel: goalsStore, isPresented: $isAddingGoal)
@@ -50,14 +65,15 @@ struct GoalsView: View {
 
     private func deleteGoal(at offsets: IndexSet) {
         offsets.forEach { index in
-            goalsStore.deleteGoal(at: index)
+            let id = goalsStore.get()[index].id
+            goalsStore.deleteGoal(id: id)
         }
     }
 
     private func editGoal(_ goal: Goal) {
-        let goalIndex = goalsStore.goals.firstIndex(of: goal)
+        let goalIndex = goalsStore.get().firstIndex(of: goal)
         if let index = goalIndex {
-            let editedGoal = goalsStore.goals[index]
+            let editedGoal = goalsStore.get()[index]
             isAddingGoal = true
             newGoalTitle = editedGoal.title
             newGoalDescription = editedGoal.description
