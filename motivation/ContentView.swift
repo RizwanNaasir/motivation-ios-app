@@ -3,6 +3,7 @@ import SwiftUI
 struct ContentView: View {
     @AppStorage("AuthToken") var authToken: String = "" // Make sure to include this if you need AuthToken
     @State private var isLoggedOut: Bool = false
+    @State private var showProfilePage: Bool = false
     @State private var isBottomSheetPresented: Bool = false
 
     var body: some View {
@@ -18,6 +19,10 @@ struct ContentView: View {
                             .tabItem {
                                 Label("Best Quotes", systemImage: "quote.bubble")
                             }
+                    BestStoriesView()
+                            .tabItem {
+                                Label("Best Quotes", systemImage: "book.fill")
+                            }
                     MyFavoriteQuotesView()
                             .tabItem {
                                 Label("Favorite Quote", systemImage: "heart")
@@ -27,18 +32,22 @@ struct ContentView: View {
                             .tabItem {
                                 Label("Favorite Stories", systemImage: "book")
                             }
-                    ProfileView()
-                            .tabItem {
-                                Label("Profile", systemImage: "person")
-                            }
                 }
             }
                     .background(
                             NavigationStack {
-                                Text("") // Add an empty view as a workaround
+                                EmptyView() // Add an empty view as a workaround
                                         .navigationDestination(isPresented: $isLoggedOut) {
                                             LoginView()
                                                     .navigationBarBackButtonHidden(true) // Hide the back button in ContentView
+                                        }
+                            }
+                    )
+                    .background(
+                            NavigationStack {
+                                EmptyView() // Add an empty view as a workaround
+                                        .navigationDestination(isPresented: $showProfilePage) {
+                                            ProfileView()
                                         }
                             }
                     )
@@ -46,6 +55,10 @@ struct ContentView: View {
                     .navigationBarItems(
                             trailing: Button(action: logout) {
                                 Image(systemName: "arrow.right.square")
+                            })
+                    .navigationBarItems(
+                            leading: Button(action: profilePage) {
+                                Image(systemName: "person.circle")
                             })
                     .overlay(
                             VStack {
@@ -78,5 +91,10 @@ struct ContentView: View {
         // For example, you can clear the AuthToken like this:
         authToken = ""
         isLoggedOut = true
+    }
+
+    public func profilePage() {
+        showProfilePage = true
+        print(showProfilePage)
     }
 }
