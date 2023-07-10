@@ -12,6 +12,7 @@
 		1DF8440D9B69D234B907431F /* GoalsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF84010599F39BB56AFC724 /* GoalsView.swift */; };
 		1DF844B893E7FFF6820F1D76 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF8433BA9FC308BA5F59DD1 /* RegisterView.swift */; };
 		1DF846938FCC7277A00DE7A1 /* Goal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF847B4E52DB138C457A055 /* Goal.swift */; };
+		1DF8473BB8D83788006A0B4A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF84E7A554C141757B880B0 /* User.swift */; };
 		1DF8475A7364F09912A50B67 /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF84AB12B3FA50BDFE78550 /* BottomSheetView.swift */; };
 		1DF8478F3B13ED6A43B6D94C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF84B5E7435842339BCAB08 /* ProfileView.swift */; };
 		1DF847D34A24B5684AAA29BB /* ApiRoutes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF84A15E5213D5D64600A6B /* ApiRoutes.swift */; };
@@ -89,6 +90,7 @@
 		1DF84B5E7435842339BCAB08 /* ProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		1DF84B87F2939E989446738E /* ApiClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
 		1DF84BD5C056F11E1199D99E /* BestQuotesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BestQuotesView.swift; sourceTree = "<group>"; };
+		1DF84E7A554C141757B880B0 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1DF84EB0CB37508883C1B94C /* MyFavoriteStoriesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyFavoriteStoriesView.swift; sourceTree = "<group>"; };
 		800918892A4C8D4A00E500F3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = motivation/app/auth/LoginView.swift; sourceTree = SOURCE_ROOT; };
 		8009188B2A4C8F8800E500F3 /* AuthFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFunctions.swift; path = motivation/app/auth/AuthFunctions.swift; sourceTree = SOURCE_ROOT; };
@@ -153,6 +155,7 @@
 				1DF8469F9E4A9EA3C3562FD4 /* Quote.swift */,
 				1DF847B4E52DB138C457A055 /* Goal.swift */,
 				1DF84586B3E5FC17A13923B6 /* Story.swift */,
+				1DF84E7A554C141757B880B0 /* User.swift */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				1DF84ABFD8AB356F8EE6ED47 /* BestStoriesView.swift in Sources */,
 				1DF8411545F6EF1FD9E8259B /* Story.swift in Sources */,
 				1DF84945493D5ACEE9B546A4 /* FavoriteStoriesStore.swift in Sources */,
+				1DF8473BB8D83788006A0B4A /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
