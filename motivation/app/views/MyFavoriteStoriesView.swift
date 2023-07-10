@@ -6,10 +6,13 @@ import SwiftUI
 
 struct MyFavoriteStoriesView: View {
     var body: some View {
-        VStack {
-            Text("MyFavoriteStoriesView")
-                    .font(.largeTitle)
-                    .padding()
+        NavigationView {
+            VStack {
+                Text("MyFavoriteStoriesView")
+                        .font(.largeTitle)
+                        .padding()
+            }
+                    .navigationBarTitle("Favourite Stories")
         }
     }
 }

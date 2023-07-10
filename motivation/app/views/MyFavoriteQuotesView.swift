@@ -6,44 +6,47 @@ struct MyFavoriteQuotesView: View {
     @EnvironmentObject var favoriteQuotesStore: FavoriteQuotesStore
 
     var body: some View {
-        VStack {
-            // List of Quotes
-            if (favoriteQuotesStore.getFavoriteQuotes().isEmpty && !isLoading) {
-                Image("Empty") // Replace with your empty state image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
-                        .padding(.bottom, 32.0)
-                Text("No Quotes Found")
-                        .padding(.bottom, 16.0)
-                Button(action: {
-                    fetchFavQuotes()
-                }) {
-                    Text("Refresh From Server")
+        NavigationView {
+            VStack {
+                // List of Quotes
+                if (favoriteQuotesStore.getFavoriteQuotes().isEmpty && !isLoading) {
+                    Image("Empty") // Replace with your empty state image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding()
+                            .padding(.bottom, 32.0)
+                    Text("No Quotes Found")
+                            .padding(.bottom, 16.0)
+                    Button(action: {
+                        fetchFavQuotes()
+                    }) {
+                        Text("Refresh From Server")
+                    }
+                }
+                if (isLoading && favoriteQuotesStore.getFavoriteQuotes().isEmpty) {
+                    ProgressView().padding(.top) // Show a loading indicator while fetching quotes
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(favoriteQuotesStore.getFavoriteQuotes(), id: \.self) { quote in
+                                QuoteCard(quote: quote)
+                            }
+                        }
+                                .padding()
+                                .refreshable {
+                                    fetchFavQuotes()
+                                }
+                    }
+                            .clipped()
                 }
             }
-            if (isLoading && favoriteQuotesStore.getFavoriteQuotes().isEmpty) {
-                ProgressView().padding(.top) // Show a loading indicator while fetching quotes
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 16) {
-                        ForEach(favoriteQuotesStore.getFavoriteQuotes(), id: \.self) { quote in
-                            QuoteCard(quote: quote)
+                    .onAppear {
+                        if favoriteQuotesStore.getFavoriteQuotes().isEmpty {
+                            fetchFavQuotes()
                         }
                     }
-                            .padding()
-                            .refreshable {
-                                fetchFavQuotes()
-                            }
-                }
-                        .clipped()
-            }
+                    .navigationBarTitle("Favourite Quotes")
         }
-                .onAppear {
-                    if favoriteQuotesStore.getFavoriteQuotes().isEmpty {
-                        fetchFavQuotes()
-                    }
-                }
     }
 
     private func fetchFavQuotes() {

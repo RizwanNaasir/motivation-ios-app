@@ -13,7 +13,6 @@ struct ContentView: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationBarTitle("")
         } else {
-            NavigationView {
                 TabView {
                     BestQuotesView()
                             .tabItem {
@@ -33,7 +32,6 @@ struct ContentView: View {
                                 Label("Favorite Stories", systemImage: "book")
                             }
                 }
-            }
                     .background(
                             NavigationStack {
                                 EmptyView() // Add an empty view as a workaround

@@ -7,38 +7,40 @@ struct BestStoriesView: View {
     @EnvironmentObject var favoriteStoriesStore: FavoriteStoriesStore
 
     var body: some View {
-        VStack {
-            // List of Stories
-            if (stories.isEmpty && !isLoading) {
-                Image("Empty") // Replace with your empty state image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
-                        .padding(.bottom, 32.0)
-                Text("No Stories Found")
-                        .padding(.bottom, 16.0)
-            }
-            if (isLoading && stories.isEmpty) {
-                ProgressView().padding(.top) // Show a loading indicator while fetching stories
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 16) {
-                        ForEach(stories, id: \.self) { story in
-                            StoryCard(story: story).environmentObject(favoriteStoriesStore)
-                        }
-                    }
+        NavigationView {
+            VStack {
+                // List of Stories
+                if (stories.isEmpty && !isLoading) {
+                    Image("Empty") // Replace with your empty state image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .padding()
-                            .refreshable {
-                                fetchStories()
+                            .padding(.bottom, 32.0)
+                    Text("No Stories Found")
+                            .padding(.bottom, 16.0)
+                }
+                if (isLoading && stories.isEmpty) {
+                    ProgressView().padding(.top) // Show a loading indicator while fetching stories
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(stories, id: \.self) { story in
+                                StoryCard(story: story).environmentObject(favoriteStoriesStore)
                             }
+                        }
+                                .padding()
+                                .refreshable {
+                                    fetchStories()
+                                }
+                    }
+                            .clipped()
                 }
-                        .clipped()
             }
+                    .onAppear {
+                        fetchStories()
+                    }
+                    .navigationBarTitle("Best Stories")
         }
-                .onAppear {
-                    fetchStories()
-                }
-                .navigationBarTitle("Best Stories")
     }
 
     private func fetchStories() {

@@ -7,42 +7,45 @@ struct BestQuotesView: View {
     @EnvironmentObject var favoriteQuotesStore: FavoriteQuotesStore
 
     var body: some View {
-        VStack {
-            // List of Quotes
-            if (quotes.isEmpty && !isLoading) {
-                Image("Empty") // Replace with your empty state image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .padding()
-                        .padding(.bottom, 32.0)
-                Text("No Quotes Found")
-                        .padding(.bottom, 16.0)
-                Button(action: {
-                    refreshFromServer()
-                }) {
-                    Text("Refresh From Server")
-                }
-            }
-            if (isLoading && quotes.isEmpty) {
-                ProgressView().padding(.top) // Show a loading indicator while fetching quotes
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 16) {
-                        ForEach(quotes, id: \.self) { quote in
-                            QuoteCard(quote: quote).environmentObject(favoriteQuotesStore)
-                        }
-                    }
+        NavigationView {
+            VStack {
+                // List of Quotes
+                if (quotes.isEmpty && !isLoading) {
+                    Image("Empty") // Replace with your empty state image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
                             .padding()
-                            .refreshable {
-                                fetchQuotes()
+                            .padding(.bottom, 32.0)
+                    Text("No Quotes Found")
+                            .padding(.bottom, 16.0)
+                    Button(action: {
+                        refreshFromServer()
+                    }) {
+                        Text("Refresh From Server")
+                    }
+                }
+                if (isLoading && quotes.isEmpty) {
+                    ProgressView().padding(.top) // Show a loading indicator while fetching quotes
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: 16) {
+                            ForEach(quotes, id: \.self) { quote in
+                                QuoteCard(quote: quote).environmentObject(favoriteQuotesStore)
                             }
+                        }
+                                .padding()
+                                .refreshable {
+                                    fetchQuotes()
+                                }
+                    }
+                            .clipped()
                 }
-                        .clipped()
             }
+                    .onAppear {
+                        fetchQuotes()
+                    }
+                    .navigationBarTitle("Best Quotes")
         }
-                .onAppear {
-                    fetchQuotes()
-                }
     }
 
     private func fetchQuotes() {
