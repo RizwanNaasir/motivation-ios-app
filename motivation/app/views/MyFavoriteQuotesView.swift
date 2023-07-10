@@ -15,13 +15,8 @@ struct MyFavoriteQuotesView: View {
                             .aspectRatio(contentMode: .fit)
                             .padding()
                             .padding(.bottom, 32.0)
-                    Text("No Quotes Found")
+                    Text("No Quotes Found, Add it from Best Quotes")
                             .padding(.bottom, 16.0)
-                    Button(action: {
-                        fetchFavQuotes()
-                    }) {
-                        Text("Refresh From Server")
-                    }
                 }
                 if (isLoading && favoriteQuotesStore.getFavoriteQuotes().isEmpty) {
                     ProgressView().padding(.top) // Show a loading indicator while fetching quotes
