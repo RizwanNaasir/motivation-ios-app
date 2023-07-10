@@ -4,12 +4,21 @@ class FavoriteStoriesStore: ObservableObject {
     @Published var favoriteStories: [Story] = []
 
     func addToFavorites(_ story: Story) {
+        let mutatedStory = Story(
+                id: story.id,
+                title: story.title,
+                content: story.content,
+                createdAt: story.createdAt,
+                updatedAt: story.updatedAt,
+                isLiked: true
+        )
         DispatchQueue.main.async {
-            if !self.isStoryAlreadyAddedFavorite(story) {
-                self.favoriteStories.append(story)
+            if !self.isStoryAlreadyAddedFavorite(mutatedStory) {
+                self.favoriteStories.append(mutatedStory)
             }
         }
     }
+
 
     func removeFromFavorites(_ story: Story) {
         DispatchQueue.main.async {
