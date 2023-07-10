@@ -13,25 +13,25 @@ struct ContentView: View {
                     .navigationBarBackButtonHidden(true)
                     .navigationBarTitle("")
         } else {
-                TabView {
-                    BestQuotesView()
-                            .tabItem {
-                                Label("Best Quotes", systemImage: "quote.bubble")
-                            }
-                    BestStoriesView()
-                            .tabItem {
-                                Label("Best Stories", systemImage: "book.fill")
-                            }
-                    MyFavoriteQuotesView()
-                            .tabItem {
-                                Label("Favorite Quote", systemImage: "heart")
-                            }
+            TabView {
+                BestQuotesView()
+                        .tabItem {
+                            Label("Best Quotes", systemImage: "quote.bubble")
+                        }
+                BestStoriesView()
+                        .tabItem {
+                            Label("Best Stories", systemImage: "book.fill")
+                        }
+                MyFavoriteQuotesView()
+                        .tabItem {
+                            Label("Favorite Quote", systemImage: "heart")
+                        }
 
-                    MyFavoriteStoriesView()
-                            .tabItem {
-                                Label("Favorite Stories", systemImage: "book")
-                            }
-                }
+                MyFavoriteStoriesView()
+                        .tabItem {
+                            Label("Favorite Stories", systemImage: "book")
+                        }
+            }
                     .background(
                             NavigationStack {
                                 EmptyView() // Add an empty view as a workaround
@@ -55,7 +55,7 @@ struct ContentView: View {
                                 Image(systemName: "arrow.right.square")
                             })
                     .navigationBarItems(
-                            leading: Button(action: profilePage) {
+                            leading: NavigationLink(destination: ProfileView()) {
                                 Image(systemName: "person.circle")
                             })
                     .overlay(
@@ -89,10 +89,5 @@ struct ContentView: View {
         // For example, you can clear the AuthToken like this:
         authToken = ""
         isLoggedOut = true
-    }
-
-    public func profilePage() {
-        showProfilePage = true
-        print(showProfilePage)
     }
 }
