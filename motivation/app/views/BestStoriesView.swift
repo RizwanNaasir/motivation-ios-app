@@ -1,54 +1,50 @@
 import SwiftUI
 
 struct BestStoriesView: View {
-    @State private var quotes: [Quote] = []
+    @State private var stories: [Story] = []
     @State private var isLoading: Bool = false
     @State private var isRefreshing: Bool = false
-    @EnvironmentObject var favoriteQuotesStore: FavoriteQuotesStore
+    @EnvironmentObject var favoriteStoriesStore: FavoriteStoriesStore
 
     var body: some View {
         VStack {
-            // List of Quotes
-            if (quotes.isEmpty && !isLoading) {
+            // List of Stories
+            if (stories.isEmpty && !isLoading) {
                 Image("Empty") // Replace with your empty state image
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()
                         .padding(.bottom, 32.0)
-                Text("No Quotes Found")
+                Text("No Stories Found")
                         .padding(.bottom, 16.0)
-                Button(action: {
-                    refreshFromServer()
-                }) {
-                    Text("Refresh From Server")
-                }
             }
-            if (isLoading && quotes.isEmpty) {
-                ProgressView().padding(.top) // Show a loading indicator while fetching quotes
+            if (isLoading && stories.isEmpty) {
+                ProgressView().padding(.top) // Show a loading indicator while fetching stories
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(quotes, id: \.self) { quote in
-                            QuoteCard(quote: quote).environmentObject(favoriteQuotesStore)
+                        ForEach(stories, id: \.self) { story in
+                            StoryCard(story: story).environmentObject(favoriteStoriesStore)
                         }
                     }
                             .padding()
                             .refreshable {
-                                fetchQuotes()
+                                fetchStories()
                             }
                 }
                         .clipped()
             }
         }
                 .onAppear {
-                    fetchQuotes()
+                    fetchStories()
                 }
+                .navigationBarTitle("Best Stories")
     }
 
-    private func fetchQuotes() {
+    private func fetchStories() {
         isRefreshing = true
         isLoading = true
-        requestData(QUOTES_LIST_ROUTE, method: "GET") { (response: Response<[Quote]>?, error) in
+        requestData(STORIES_LIST_ROUTE, method: "GET") { (response: Response<[Story]>?, error) in
             isRefreshing = false
             isLoading = false
             if let error = error {
@@ -62,23 +58,117 @@ struct BestStoriesView: View {
             }
 
             if let quoteResponse = response.data {
-                quotes = quoteResponse
+                stories = quoteResponse
             } else {
                 print("No data in the response")
             }
         }
     }
+}
 
-    private func refreshFromServer() {
-        isLoading = true
-        request(REFRESH_QUOTES_ROUTE, method: "POST") { error in
-            isLoading = false
-            if let error = error {
-                print("Error: \(error)")
-                return
+struct StoryCard: View {
+    let story: Story
+    @State private var isLiked: Bool = false
+    @State private var isLoading: Bool = false
+    @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var favoriteStoriesStore: FavoriteStoriesStore
+    @State private var isExpanded: Bool = false
+
+    init(story: Story) {
+        self.story = story
+        _isLiked = State(initialValue: story.isLiked ?? false)
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text(story.title)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(2)
+                        .font(Font.title2.uppercaseSmallCaps())
+                        .foregroundColor(colorScheme == .dark ? .primary : .secondary)
+                Spacer()
             }
-            print("Successfully refreshed quotes")
-            fetchQuotes()
+
+            if isExpanded {
+                Text(story.content)
+                        .multilineTextAlignment(.leading)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .transition(.opacity)
+                        .animation(
+                                Animation
+                                        .easeInOut(duration: 1.5)
+                                        .repeatForever(autoreverses: true),
+                                value: UUID()
+                        ).onTapGesture {
+                            isExpanded.toggle()
+                        }
+            } else {
+                Text(story.content)
+                        .multilineTextAlignment(.leading)
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                        .lineLimit(3)
+                        .transition(.opacity)
+                        .animation(
+                                Animation
+                                        .easeInOut(duration: 1.5),
+                                value: UUID()
+                        ).onTapGesture {
+                            isExpanded.toggle()
+                        }
+            }
+
+            HStack {
+                Spacer()
+                Button(action: {
+                    isLoading = true
+                    addToFavorites(id: story.id) { success in
+                        if success {
+                            isLoading = false
+                            isLiked.toggle()
+                            if isLiked {
+                                favoriteStoriesStore.addToFavorites(story)
+                            } else {
+                                favoriteStoriesStore.removeFromFavorites(story)
+                            }
+                        } else {
+                            isLoading = false
+                        }
+                    }
+                }) {
+                    Image(systemName: isLiked ? "heart.fill" : "heart")
+                            .foregroundColor(isLiked ? .red : .gray)
+                            .font(.system(size: 20))
+                            .padding(8)
+                }
+                        .padding(8)
+                        .disabled(isLoading)
+            }
+                    .cornerRadius(8)
+                    .cornerRadius(10)
         }
+                .padding(15)
+                .background(colorScheme == .dark ? Color(.black) : Color.white)
+                .frame(maxWidth: UIScreen.main.bounds.width - 50, alignment: .leading)
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .blue.opacity(0.1), radius: 15, x: 0, y: 5)
+                .overlay(
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .stroke(colorScheme == .dark ? Color.white.opacity(0.3) : Color.gray.opacity(0.1), lineWidth: 1)
+                )
+    }
+}
+
+private func addToFavorites(id: Int, completion: @escaping (Bool) -> Void) {
+    request(ADD_TO_FAVORITES_STORIES_ROUTE + String(id), method: "POST") { error in
+        if let error = error {
+            print("Error: \(error)")
+            completion(false)
+            return
+        }
+        completion(true)
     }
 }

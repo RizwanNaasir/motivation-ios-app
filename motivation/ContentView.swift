@@ -21,7 +21,7 @@ struct ContentView: View {
                             }
                     BestStoriesView()
                             .tabItem {
-                                Label("Best Quotes", systemImage: "book.fill")
+                                Label("Best Stories", systemImage: "book.fill")
                             }
                     MyFavoriteQuotesView()
                             .tabItem {
@@ -74,10 +74,10 @@ struct ContentView: View {
                                             .clipShape(Circle())
                                             .shadow(radius: 4)
                                 }
-                                        .padding(.bottom, 16)
-                                        .padding(.trailing, 16)
+                                        .padding(.bottom, 60)
+                                        .padding(.trailing, 20)
                             }
-                            , alignment: .bottom
+                            , alignment: .bottomTrailing
                     )
                     .sheet(isPresented: $isBottomSheetPresented) {
                         // The content of the bottom sheet view
