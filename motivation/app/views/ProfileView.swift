@@ -12,15 +12,14 @@ struct ProfileView: View {
             VStack {
                 if (isLoading && user == nil) {
                     ProgressView().padding()
-                }
-                if (user != nil && !isLoading) {
+                } else if (user != nil && !isLoading) {
                     VStack(alignment: .leading, spacing: 12) {
-                        ProfileField(label: "First Name", value: (user?.name)!)
-                        ProfileField(label: "Last Name", value: (user?.surname)!)
-                        ProfileField(label: "Age", value: (user?.age)!)
-                        ProfileField(label: "Gender", value: (user?.gender)!)
-                        ProfileField(label: "Favorite Hobby", value: (user?.favouriteHobby)!)
-                        ProfileField(label: "Personality Type", value: (user?.personaltyType)!)
+                        ProfileField(label: "First Name", value: user?.name ?? "")
+                        ProfileField(label: "Last Name", value: user?.surname ?? "")
+                        ProfileField(label: "Age", value: user?.age ?? 0)
+                        ProfileField(label: "Gender", value: user?.gender ?? "")
+                        ProfileField(label: "Favorite Hobby", value: user?.favouriteHobby ?? "")
+                        ProfileField(label: "Personality Type", value: user?.personaltyType ?? "")
                     }
                             .padding()
 
