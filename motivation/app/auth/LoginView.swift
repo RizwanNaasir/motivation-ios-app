@@ -20,70 +20,68 @@ struct LoginView: View {
             .enabled(title: "Login", systemImage: "arrow.right.square")
 
     var body: some View {
-        VStack {
-            Image("Banner")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 200, height: 200)
-                    .padding()
-                    .cornerRadius(8.0)
-                    .padding(.bottom, 32.0)
-            // Replace with your logo image
-
-            CustomTextField(
-                    text: $username,
-                    placeholder: "Username",
-                    keyboardType: .emailAddress,
-                    textContentType: .emailAddress
-            )
-
-            SecureField("Password", text: $password)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
-
-            Spacer().padding(1)
-
-            ActionButton(state: $actionButtonState, onTap: {
-                actionButtonState = .loading(title: "Logging", systemImage: "arrow.right.square")
-                signInWithCred(username: username, password: password) { success in
-                    if success {
-                        // Sign-in successful
-                        isLoggedIn = true
-                        actionButtonState = .enabled(title: "Logged In", systemImage: "checkmark")
-                    } else {
-                        // Sign-in failed
-                        actionButtonState = .enabled(title: "Login", systemImage: "arrow.right.square")
+        NavigationView {
+            VStack {
+                Text("Welcome!")
+                        .font(.largeTitle)
+                        .padding()
+                Form {
+                    Section(header: Text("Email")) {
+                        CustomTextField(
+                                text: $username,
+                                placeholder: "john@example.com",
+                                keyboardType: .emailAddress,
+                                textContentType: .emailAddress
+                        )
+                    }
+                    Section(header: Text("Password")) {
+                        SecureField("Password", text: $password)
                     }
                 }
-            }, backgroundColor: Color.blue)
-                    .frame(maxWidth: .infinity) // Make the button full width
-                    .padding()
-                    .cornerRadius(8.0)
-                    .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
+                        .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
+                        .padding(.top)
+                        .background(colorScheme == .dark ? Color.black : Color.white)
+                        .scrollContentBackground(.hidden)
 
-            Spacer().padding(2)
-
-            HStack {
-                Text("Don't have an account?")
-                        .foregroundColor(.gray)
-                // NavigationLink to RegisterView
-                NavigationLink("Register") {
-                    RegisterView()
-                }
-            }
-                    .padding(.bottom)
-        }
-                .padding()
-                .background(
-                        NavigationStack {
-                            EmptyView() // Add an empty view as a workaround
-                                    .navigationDestination(isPresented: $isLoggedIn) {
-                                        ContentView()
-                                                .navigationBarBackButtonHidden(true) // Hide the back button in the ContentView
-                                    }
+                ActionButton(state: $actionButtonState, onTap: {
+                    actionButtonState = .loading(title: "Logging", systemImage: "arrow.right.square")
+                    signInWithCred(username: username, password: password) { success in
+                        if success {
+                            // Sign-in successful
+                            isLoggedIn = true
+                            actionButtonState = .enabled(title: "Logged In", systemImage: "checkmark")
+                        } else {
+                            // Sign-in failed
+                            actionButtonState = .enabled(title: "Login", systemImage: "arrow.right.square")
                         }
-                )
+                    }
+                }, backgroundColor: Color.blue)
+                        .frame(maxWidth: .infinity) // Make the button full width
+                        .padding()
+                        .cornerRadius(8.0)
+                        .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
+
+                HStack {
+                    Text("Don't have an account?")
+                            .foregroundColor(.gray)
+                    // NavigationLink to RegisterView
+                    NavigationLink("Register") {
+                        RegisterView()
+                    }
+                }
+                        .padding(.bottom)
+            }
+                    .padding()
+                    .background(
+                            NavigationStack {
+                                EmptyView() // Add an empty view as a workaround
+                                        .navigationDestination(isPresented: $isLoggedIn) {
+                                            ContentView()
+                                                    .navigationBarBackButtonHidden(true) // Hide the back button in the ContentView
+                                        }
+                            }
+                    )
+        }
     }
 
     private func checkAuthToken() {

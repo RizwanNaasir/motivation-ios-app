@@ -19,26 +19,31 @@ struct RegisterView: View {
                     .font(.largeTitle)
                     .padding()
 
-            CustomTextField(
-                    text: $name,
-                    placeholder: "Name",
-                    keyboardType: .default,
-                    textContentType: .name
-            )
-
-            CustomTextField(
-                    text: $email,
-                    placeholder: "Email",
-                    keyboardType: .emailAddress,
-                    textContentType: .emailAddress
-            )
-
-            SecureField("Password", text: $password)
-                    .padding()
-                    .background(RoundedRectangle(cornerRadius: 8).stroke(Color.gray, lineWidth: 1))
-                    .padding(.horizontal)
-
-            Spacer().padding()
+            Form {
+                Section(header: Text("Name")) {
+                    CustomTextField(
+                            text: $name,
+                            placeholder: "John Doe",
+                            keyboardType: .default,
+                            textContentType: .name
+                    )
+                }
+                Section(header: Text("Email")) {
+                    CustomTextField(
+                            text: $email,
+                            placeholder: "john@example.com",
+                            keyboardType: .emailAddress,
+                            textContentType: .emailAddress
+                    )
+                }
+                Section(header: Text("Password")) {
+                    SecureField("Password", text: $password)
+                }
+            }
+                    .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
+                    .padding(.top)
+                    .background(colorScheme == .dark ? Color.black : Color.white)
+                    .scrollContentBackground(.hidden)
 
             ActionButton(state: $actionButtonState, onTap: {
                 actionButtonState = .loading(title: "Wait", systemImage: "bolt")
