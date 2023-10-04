@@ -31,6 +31,21 @@ struct ContentView: View {
                         .tabItem {
                             Label("Favorite Stories", systemImage: "book")
                         }
+                NotesView()
+                        .navigationBarBackButtonHidden(true)
+                        .tabItem {
+                            Label("Notes", systemImage: "note")
+                        }
+                ProfileView()
+                        .tabItem {
+                            Label("Profile", systemImage: "person.circle")
+                        }
+                LoginView()
+                        .navigationBarBackButtonHidden(true)
+                        .tabItem {
+                            Label("Logout", systemImage: "arrow.right.square")
+                        }
+            
             }
                     .background(
                             NavigationStack {
@@ -50,14 +65,6 @@ struct ContentView: View {
                             }
                     )
                     .navigationBarTitle("Motivation", displayMode: .inline)
-                    .navigationBarItems(
-                            trailing: Button(action: logout) {
-                                Image(systemName: "arrow.right.square")
-                            })
-                    .navigationBarItems(
-                            leading: NavigationLink(destination: ProfileView()) {
-                                Image(systemName: "person.circle")
-                            })
                     .overlay(
                             VStack {
                                 Spacer()
