@@ -88,7 +88,7 @@ struct StoryCard: View {
                         .multilineTextAlignment(.leading)
                         .fixedSize(horizontal: false, vertical: true)
                         .lineLimit(2)
-                        .font(Font.title2.uppercaseSmallCaps())
+                        .font(Font.title3)
                         .foregroundColor(colorScheme == .dark ? .primary : .secondary)
                 Spacer()
             }
@@ -142,25 +142,19 @@ struct StoryCard: View {
                     }
                 }) {
                     Image(systemName: isLiked ? "heart.fill" : "heart")
-                            .foregroundColor(isLiked ? .red : .gray)
+                            .foregroundColor(isLiked ? .black : .gray)
                             .font(.system(size: 20))
                             .padding(8)
                 }
                         .padding(8)
                         .disabled(isLoading)
             }
-                    .cornerRadius(8)
                     .cornerRadius(10)
         }
                 .padding(15)
                 .background(colorScheme == .dark ? Color(.black) : Color.white)
                 .frame(maxWidth: UIScreen.main.bounds.width - 50, alignment: .leading)
-                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .blue.opacity(0.1), radius: 15, x: 0, y: 5)
-                .overlay(
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                .stroke(colorScheme == .dark ? Color.white.opacity(0.3) : Color.gray.opacity(0.1), lineWidth: 1)
-                )
+                .shadow(color: colorScheme == .dark ? .white.opacity(0.01) : .black.opacity(0.1), radius: 15, x: 0, y: 5)
     }
 }
 
