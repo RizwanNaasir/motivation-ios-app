@@ -23,7 +23,7 @@ struct GoalsView: View {
                             .aspectRatio(contentMode: .fit)
                             .padding()
                             .padding(.bottom, 32.0)
-                    Text("No Goals Found")
+                    Text("No Notes Found")
                             .padding(.bottom, 16.0)
                 } else {
                     List {
@@ -59,7 +59,7 @@ struct GoalsView: View {
                         }
                         .padding()
             }
-                    .navigationBarTitle("Goals")
+                    .navigationBarTitle("Notes")
         }
     }
 

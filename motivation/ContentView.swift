@@ -31,8 +31,7 @@ struct ContentView: View {
                         .tabItem {
                             Label("Favorite Stories", systemImage: "book")
                         }
-                NotesView()
-                        .navigationBarBackButtonHidden(true)
+                GoalsView()
                         .tabItem {
                             Label("Notes", systemImage: "note")
                         }
@@ -65,25 +64,6 @@ struct ContentView: View {
                             }
                     )
                     .navigationBarTitle("Motivation", displayMode: .inline)
-                    .overlay(
-                            VStack {
-                                Spacer()
-                                Button(action: {
-                                    isBottomSheetPresented = true
-                                }) {
-                                    Image(systemName: "plus")
-                                            .font(.system(size: 24))
-                                            .padding()
-                                            .background(Color.blue)
-                                            .foregroundColor(.white)
-                                            .clipShape(Circle())
-                                            .shadow(radius: 4)
-                                }
-                                        .padding(.bottom, 60)
-                                        .padding(.trailing, 20)
-                            }
-                            , alignment: .bottomTrailing
-                    )
                     .sheet(isPresented: $isBottomSheetPresented) {
                         // The content of the bottom sheet view
                         BottomSheetView()

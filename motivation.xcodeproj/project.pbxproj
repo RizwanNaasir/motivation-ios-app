@@ -30,7 +30,6 @@
 		8009188A2A4C8D4A00E500F3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800918892A4C8D4A00E500F3 /* LoginView.swift */; };
 		8009188C2A4C8F8800E500F3 /* AuthFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8009188B2A4C8F8800E500F3 /* AuthFunctions.swift */; };
 		8009188F2A4C93B400E500F3 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8009188E2A4C93B400E500F3 /* Toast.swift */; };
-		800A3A032ACD88920097872F /* NotesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800A3A022ACD88920097872F /* NotesView.swift */; };
 		802C64B52A56C62E00655E0F /* ActionButton in Frameworks */ = {isa = PBXBuildFile; productRef = 802C64B42A56C62E00655E0F /* ActionButton */; };
 		806D6DFA2A49B0D300822A2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806D6DF92A49B0D300822A2C /* ContentView.swift */; };
 		806D6DFC2A49B0D400822A2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 806D6DFB2A49B0D400822A2C /* Assets.xcassets */; };
@@ -97,7 +96,6 @@
 		800918892A4C8D4A00E500F3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoginView.swift; path = motivation/app/auth/LoginView.swift; sourceTree = SOURCE_ROOT; };
 		8009188B2A4C8F8800E500F3 /* AuthFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AuthFunctions.swift; path = motivation/app/auth/AuthFunctions.swift; sourceTree = SOURCE_ROOT; };
 		8009188E2A4C93B400E500F3 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
-		800A3A022ACD88920097872F /* NotesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesView.swift; sourceTree = "<group>"; };
 		806D6DF42A49B0D300822A2C /* motivation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = motivation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		806D6DF92A49B0D300822A2C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		806D6DFB2A49B0D400822A2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -185,7 +183,6 @@
 				1DF84010599F39BB56AFC724 /* GoalsView.swift */,
 				1DF849D1F2DD7BCA7A259013 /* AddGoalView.swift */,
 				1DF84510E411483DBAE10B4F /* BestStoriesView.swift */,
-				800A3A022ACD88920097872F /* NotesView.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -585,7 +582,6 @@
 				1DF8435D81666F48C43C1934 /* AddGoalView.swift in Sources */,
 				1DF84ABFD8AB356F8EE6ED47 /* BestStoriesView.swift in Sources */,
 				1DF8411545F6EF1FD9E8259B /* Story.swift in Sources */,
-				800A3A032ACD88920097872F /* NotesView.swift in Sources */,
 				1DF84945493D5ACEE9B546A4 /* FavoriteStoriesStore.swift in Sources */,
 				80D72CFC2ACD6B2000D24879 /* SplashScreenApp.swift in Sources */,
 				1DF8473BB8D83788006A0B4A /* User.swift in Sources */,
