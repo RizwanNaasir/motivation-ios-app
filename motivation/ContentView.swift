@@ -39,11 +39,6 @@ struct ContentView: View {
                         .tabItem {
                             Label("Profile", systemImage: "person.circle")
                         }
-                LoginView()
-                        .navigationBarBackButtonHidden(true)
-                        .tabItem {
-                            Label("Logout", systemImage: "arrow.right.square")
-                        }
             
             }
                     .background(
@@ -63,6 +58,11 @@ struct ContentView: View {
                                         }
                             }
                     )
+                    .navigationBarItems(
+                                                trailing: Button(action: logout) {
+                                                    Image(systemName: "arrow.right.square")
+                                                    Text("Logout")
+                                                })
                     .navigationBarTitle("Motivation", displayMode: .inline)
                     .sheet(isPresented: $isBottomSheetPresented) {
                         // The content of the bottom sheet view
